@@ -1,7 +1,7 @@
 // var binary = require('node-pre-gyp');
 var path = require('path');
 // var binding_path = binary.find();
-var binding_path = path.resolve(path.join(__dirname,'./native-artifacts/native-addons/usb_bindings.node'));
+var binding_path = path.resolve(path.join(__dirname,'../../../native-artifacts/native-addons/usb_bindings.node'));
 
 var usb = exports = module.exports = require(binding_path);
 var events = require('events')
