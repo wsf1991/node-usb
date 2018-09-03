@@ -1,6 +1,8 @@
-var binary = require('node-pre-gyp');
-var path = require('path');
-var binding_path = binary.find(path.resolve(path.join(__dirname,'./package.json')));
+// var binary = require('node-pre-gyp');
+// var path = require('path');
+// var binding_path = binary.find(path.resolve(path.join(__dirname,'./package.json')));
+
+var binding_path = 'usb/build/Release/usb_bindings.node';
 
 var usb = exports = module.exports = require(binding_path);
 var events = require('events')
