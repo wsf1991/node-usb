@@ -4,7 +4,7 @@
 
 var binding_path = 'usb/build/Release/usb_bindings.node';
 
-var usb = exports = module.exports = require(binding_path);
+var usb = exports = module.exports = require('usb/build/Release/usb_bindings.node');
 var events = require('events')
 var util = require('util')
 
