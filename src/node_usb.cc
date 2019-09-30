@@ -96,11 +96,11 @@ NODE_MODULE(usb_bindings, Initialize)
 
 NAN_METHOD(SetDebugLevel) {
 	Nan::HandleScope scope;
-	if (info.Length() != 1 || !info[0]->IsUint32() || info[0]->Uint32Value() > 4) {
+	if (info.Length() != 1 || !info[0]->IsUint32() || Nan::To<v8::Uint32>(info[0]).ToLocalChecked()->Value() > 4) {
 		THROW_BAD_ARGS("Usb::SetDebugLevel argument is invalid. [uint:[0-4]]!")
 	}
 
-	libusb_set_debug(usb_context, info[0]->Uint32Value());
+	libusb_set_debug(usb_context, Nan::To<v8::Uint32>(info[0]).ToLocalChecked()->Value());
 	info.GetReturnValue().Set(Nan::Undefined());
 }
 
@@ -216,6 +216,7 @@ void initConstants(Local<Object> target){
 	NODE_DEFINE_CONSTANT(target, LIBUSB_DT_DEVICE);
 	NODE_DEFINE_CONSTANT(target, LIBUSB_DT_CONFIG);
 	NODE_DEFINE_CONSTANT(target, LIBUSB_DT_STRING);
+	NODE_DEFINE_CONSTANT(target, LIBUSB_DT_BOS);
 	NODE_DEFINE_CONSTANT(target, LIBUSB_DT_INTERFACE);
 	NODE_DEFINE_CONSTANT(target, LIBUSB_DT_ENDPOINT);
 	NODE_DEFINE_CONSTANT(target, LIBUSB_DT_HID);
@@ -263,6 +264,7 @@ void initConstants(Local<Object> target){
 	NODE_DEFINE_CONSTANT(target, LIBUSB_RECIPIENT_OTHER);
 
 	NODE_DEFINE_CONSTANT(target, LIBUSB_CONTROL_SETUP_SIZE);
+	NODE_DEFINE_CONSTANT(target, LIBUSB_DT_BOS_SIZE);
 
 	// libusb_error
 	// Input/output error
@@ -296,6 +298,6 @@ void initConstants(Local<Object> target){
 Local<Value> libusbException(int errorno) {
 	const char* err = libusb_error_name(errorno);
 	Local<Value> e  = Nan::Error(err);
-	e->ToObject()->Set(Nan::New<String>("errno").ToLocalChecked(), Nan::New<Integer>(errorno));
+	e.As<v8::Object>()->Set(Nan::New<String>("errno").ToLocalChecked(), Nan::New<Integer>(errorno));
 	return e;
 }
